@@ -1,0 +1,268 @@
+---
+title: EXAMINING THE LEVEL AND VARIATION IN THE EFFICIENCY OF COUNTY HEALTH SYSTEMS
+  IN KENYA, AND HOW IT CAN BE IMPROVED
+author: "VICTOR MANDELA"
+date: "June 13, 2019"
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+  pdf_document: default
+---
+
+```{r include=FALSE}
+library(rmarkdown)
+library(tinytex)
+library(dplyr)
+```
+
+##ABSTRACT
+
+The Ministry of health in the government of Kenya in a line with the big four agenda has been implementing various health sector reforms (for example, expansion and upgradation of public health facilities, provision of round the clock services in selected primary health centres and continuous availability of quality medicines decentralisation) in a bid to improve efficiency in health care. However, few attempts have been made to make an estimate of the efficiency of health systems in the Kenyan Counties. The government has chosen four pilot survey counties for the big four agenda on Universal health coverage. They include; Kisumu, Machakos, Nyeri and Kisumu County. 
+
+##OBJECTIVES
+
+The objectives of this study are: 
+
+1. To estimate the relative technical efficiency (TE) and scale efficiency (SE) of a sample of public hospitals in Counties in Kenya
+
+2. To inform policy implications for health sector policy makers.
+
+##VARIABLES OF INTEREST
+
+Among the  commonly used inputs  in  the health systems'  technical and scale efficiency measurement  using DEA  include the  number of doctors,  number of  nurses, number of beds, number of other medical staffs, number of other  non-medical staffs, number  of total  employed  staffs, total expenditure,  total non-labour cost, value of fixed capital and cost of drug supply.
+
+As for the outputs in  the  county health systems'  technical and scale efficiency, some of the commonly used  for measurement including the  total inpatients,  average  daily admission, number  of outpatients,  number of  surgeries, number  of deliveries,  ALOS,  BOR  and total revenue. 
+
+For this study the researcher wants to give an example of how similar research can be done using DEA analysis.
+
+Even  though  this study  has identified  the commonly  used inputs  and  outputs in measuring county health systems'  technical and scale efficiency, the researcher selected number of beds, number of labs and total budget allocation as inputs and number of births and total revenue as outputs. This was done while taking into account the objectives of the study and the available secondary data the researcher had access to at that time.
+
+|    Variable             |    Description of Variable                                    |
+|-------------------------|---------------------------------------------------------------|
+|    Outputs              |                                                               |
+| Number of births        | Reported Births by County, 2017                               |
+| Total revenue           |  Annual County Governments Revenue , FY 2017/18               |
+|    Inputs               |                                                               |
+|   Number of beds        |  Health Facility Beds by County, 2017                         |
+| Number of labs          | Registered Medical Laboratories by County, 2017               |
+| Total Budget allocation | Consolidated County Governments Budget Allocation, FY 2017/18 |
+
+**TABLE 1: DESCRIPTION OF VARIABLES**
+
+[Source : Statistical Abstract 2018](https://www.knbs.or.ke/publications/)
+
+##POPULATION
+
+###INTRODUCTION
+
+The researcher in with the aim of examining the technical and scale efficiency of county health systems in Kenya will consider the target population as the 47 counties in Kenya. They include; Baringo County, Bomet County, Bungoma County, Busia County, Elgeyo Marakwet County, Embu County, Garissa County, Homa Bay County, Isiolo County, Kajiado County, Kakamega County, Kericho County, Kiambu County, Kilifi County, Kirinyaga County, Kisii County, Kisumu County, Kitui County, Kwale County, Laikipia County, Lamu County, Machakos County, Makueni County, Mandera County, Meru County, Migori County, Marsabit County, Mombasa County, Muranga County, Nairobi County, Nakuru County, Nandi County, Narok County, Nyamira County, Nyandarua County, Nyeri County, Samburu County, Siaya County, Taita Taveta County, Tana River County, Tharaka Nithi County, Trans Nzoia County, Turkana County, Uasin Gishu County, Vihiga County, Wajir County and West Pokot County.
+
+| Code | County           | Former Province    | Area (Squared km) | Capital          |
+|------|------------------|--------------------|-------------------|------------------|
+| 1    | Mombasa (County) | Coast              | 212.5             | Mombasa (City)   |
+| 2    | Kwale            | Coast              | 8,270.3           | Kwale            |
+| 3    | Kilifi           | Coast              | 12,245.9          | Kilifi           |
+| 4    | Tana River       | Coast              | 35,375.8          | Hola             |
+| 5    | Lamu             | Coast              | 6,497.7           | Lamu             |
+| 6    | Taita-Taveta     | Coast              | 17,083.9          | Mwatate          |
+| 7    | Garissa          | North Eastern      | 45,720.2          | Garissa          |
+| 8    | Wajir            | North Eastern      | 55,840.6          | Wajir            |
+| 9    | Mandera          | North Eastern      | 25,797.7          | Mandera          |
+| 10   | Marsabit         | Eastern            | 66,923.1          | Marsabit         |
+| 11   | Isiolo           | Eastern            | 25,336.1          | Isiolo           |
+| 12   | Meru             | Eastern            | 6,930.1           | Meru             |
+| 13   | Tharaka-Nithi    | Eastern            | 2,409.5           | Kathwana         |
+| 14   | Embu             | Eastern            | 2,555.9           | Embu             |
+| 15   | Kitui            | Eastern            | 24,385.1          | Kitui            |
+| 16   | Machakos         | Eastern            | 5,952.9           | Machakos         |
+| 17   | Makueni          | Eastern            | 8,008.9           | Wote             |
+| 18   | Nyandarua        | Central            | 3,107.7           | Ol Kalou         |
+| 19   | Nyeri            | Central            | 2,361.0           | Nyeri            |
+| 20   | Kirinyaga        | Central            | 1,205.4           | Kerugoya / Kutus |
+| 21   | Murang'a         | Central            | 2,325.8           | Murang'a         |
+| 22   | Kiambu           | Central            | 2,449.2           | Kiambu           |
+| 23   | Turkana          | Rift Valley        | 71,597.8          | Lodwar           |
+| 24   | West Pokot       | Rift Valley        | 8,418.2           | Kapenguria       |
+| 25   | Samburu          | Rift Valley        | 20,182.5          | Maralal          |
+| 26   | Trans-Nzoia      | Rift Valley        | 2,469.9           | Kitale           |
+| 27   | Uasin Gishu      | Rift Valley        | 2,955.3           | Eldoret          |
+| 28   | Elgeyo-Marakwet  | Rift Valley        | 3,049.7           | Iten             |
+| 29   | Nandi            | Rift Valley        | 2,884.5           | Kapsabet         |
+| 30   | Baringo          | Rift Valley        | 11,075.3          | Kabarnet         |
+| 31   | Laikipia         | Rift Valley        | 8,696.1           | Rumuruti         |
+| 32   | Nakuru           | Rift Valley        | 7,509.5           | Nakuru           |
+| 33   | Narok            | Rift Valley        | 17,921.2          | Narok            |
+| 34   | Kajiado          | Rift Valley        | 21,292.7          | Kajiado          |
+| 35   | Kericho          | Rift Valley        | 2,454.5           | Kericho          |
+| 36   | Bomet            | Rift Valley        | 1,997.9           | Bomet            |
+| 37   | Kakamega         | Western            | 3,033.8           | Kakamega         |
+| 38   | Vihiga           | Western            | 531.3             | Vihiga           |
+| 39   | Bungoma          | Western            | 2,206.9           | Bungoma          |
+| 40   | Busia            | Western            | 1,628.4           | Busia            |
+| 41   | Siaya            | Nyanza             | 2,496.1           | Siaya            |
+| 42   | Kisumu           | Nyanza             | 2,009.5           | Kisumu(City)     |
+| 43   | Homa Bay         | Nyanza             | 3,154.7           | Homa Bay         |
+| 44   | Migori           | Nyanza             | 2,586.4           | Migori           |
+| 45   | Kisii            | Nyanza             | 1,317.9           | Kisii            |
+| 46   | Nyamira          | Nyanza             | 912.5             | Nyamira          |
+| 47   | Nairobi (County) | Nairobi (Province) | 694.9             | Nairobi (City)   |
+|      |                  |                    | 581,309.0         | Nairobi          |
+
+**Table 2 : Distribution of Counties in Kenya**
+
+[Source: wikipedia, 2009](https://en.wikipedia.org/wiki/Counties_of_Kenya)
+
+Table 1, shows the distribution of counties in Kenya, their county code, former provinces, the area they cover in squared kilometres and their capitals.
+
+![Counties by Provinces](counties by provinces.png)
+
+**FIGURE 1 : Distribution of Counties by Provinces in Kenya**
+
+[Source: wikipedia, 2009](https://www.google.com/search?q=counties+in+kenya+by+province&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjO-PTtpebiAhVRxYUKHb63AgEQ_AUIECgB&biw=1280&bih=561#imgrc=6DAZ1u4EIBA-8M:)
+
+###SAMPLING TECHNIQUE
+
+The researcher opted to use the multi- stage sampling technique to sample from the total population. The first stage of the sampling was conducted by clustering the counties into their former provinces, that is; Eastern, Western, Rift valley, Northern- eastern, Nyanza, Nairobi, Central and Coast province. Then the research used clustered sampling technique to pick four provinces at random from the eight to avoid bias. And further selected one country from this using simple random sampling. In this case, the researcher picked Machakos county in Eastern province, Kakamega county in Western province, Nyeri county in  Central province and Garissa county in Northern eastern province. 
+
+| Code | County   | Former Province | Area (Squared km) | Capital  |
+|------|----------|-----------------|-------------------|----------|
+| 7    | Garissa  | North Eastern   | 45,720.2          | Garissa  |
+| 16   | Machakos | Eastern         | 5,952.9           | Machakos |
+| 19   | Nyeri    | Central         | 2,361.0           | Nyeri    |
+| 37   | Kakamega | Western         | 3,033.8           | Kakamega |
+
+**Table 3 : Distribution of Sampled Counties in Kenya**
+
+[Source: wikipedia, 2009](https://en.wikipedia.org/wiki/Counties_of_Kenya)
+
+  
+
+##ANALYSIS
+
+###DATA COLLECTION TOOLS
+
+The researcher used mostly secondary data collection methods for this study. This was done by mainly collation of secondary data on inputs and outputs with the aim to determine the level of efficiency in the county health systems in Kenya.
+
+The [Statistical Abstract 2018 document was used to source the revalant data for this study.](https://www.knbs.or.ke/publications/)
+
+###DATA ANALYSIS PROCEDURE
+
+The Data Envelopment Analysis (DEA) approach, a well-known operations research (OR) technique for relative efficiency evaluation of a set of similar decision making units (DMU), was used to estimate the efficiency of these county health systems. 
+
+##FINDINGS, DISCUSSIONS AND RECOMMENDATIONS
+
+```{r include=FALSE}
+library(rDEA)
+library(rmarkdown)
+library(tinytex)
+library(dplyr)
+setwd("C:/stata assignments/complete/application at kemri")
+rm(data)
+data <- read.csv("data1.csv",header = T,stringsAsFactors = F)
+```
+
+The data on input and outputs is shown in the table 3 below.
+
+|              | No_of_beds | No_of_labs | Total_budget_allocation(in_millions) | No_of_Births | Total _revenue(in_millions) |
+|--------------|------------|------------|--------------------------------------|--------------|-----------------------------|
+| Machakos     | 1695       | 35         | 9990.18                              | 23233        | 9990.18                     |
+| Kakamega     | 1802       | 26         | 13169.96                             | 38771        | 12115.98                    |
+| Nyeri        | 1705       | 32         | 6832.72                              | 15385        | 6794.65                     |
+| Garissa      | 747        | 15         | 7851.1                               | 11750        | 364.84                      |
+| Kenyan Total | 56728      | 1447       | 374685                               | 923487       |                             |
+
+
+**TABLE 4 : THE VALUE OF VARIABLES BY SELECTED COUNTIES IN KENYA**
+
+[Source : Statistical Abstract 2018](https://www.knbs.or.ke/publications/)
+
+```{r include=FALSE}
+#load the data
+dea <- tbl_df(data)
+head(dea)
+
+#extracting inputs and output variables
+inp_var <- select(dea, `No_of_beds`, `No_of_labs`,`Total_budget_allocation_in_millions`)
+out_var <- select(dea, `No_of_Births`,`Total_revenue_in_millions`)
+
+model <- dea(XREF = inp_var, YREF = out_var, X = inp_var[,], Y = out_var[,], model = "input", RTS = "constant")
+#model
+
+#result and interpretation
+result <- cbind(round(model$thetaOpt, 4), round(model$lambda, 4))
+rownames(result) <- dea[[1]]
+colnames(result) <- c("Efficiency", rownames(result))
+#result
+```
+
+```{r echo=FALSE}
+#model
+#result
+```
+
+|  | Efficiency | Machakos | Kakamega | Nyeri | Garissa |
+|----------|------------|----------|----------|-------|---------|
+| Machakos | 1.0000 | 1.0000 | 0.0000 | 0 | 0 |
+| Kakamega | 1.0000 | 0.0000 | 1.0000 | 0 | 0 |
+| Nyeri | 0.9944 | 0.6801 | 0.0000 | 0 | 0 |
+| Garissa | 0.7311 | 0.0000 | 0.3031 | 0 | 0 |
+
+**TABLE 5: EFFICIENCY ANALYSIS**
+
+*Source : The Researcher, 2019*
+
+It is clearly evident from the above table that Machakos and Kakamega Counties are efficient, on the other hand, Nyeri and Garissa County are not effiecient 
+
+So what improvement should we recommend to Nyeri and Garissa County (inefficient ones) so that they can perform at par with the efficient Counties? This can be done by using **shadow values** (lambda values from the above table, they are the variables related to the constraints limiting the efficiency of each unit to be no greater than 1). For the inefficient DMUs of Nyeri and Garissa County, the benchmarks DMUs are Machakos and Kakamega Counties and their corresponding shadow value are 0.6801 for Nyeri County. Therefore the recommendation for DMUP3 is as follows;
+
+###NYERI COUNTY
+
+The table below show the analysis of efficiency for Nyeri County in Kenya for the variables of interest to this study. The findings are as shown in table 6 below. 
+
+|    Inputs and outputs    |         | Machakos  County |         | Nyeri   County |         |
+|---------------------------------------------|--------------|------------------|-------------|----------------|------------------------------------------------|
+|         |    Values    |    Lambdas    |    total    |         |    Excess use by Nyeri County or deficiency    |
+|    Number of beds    | 1695 | 0.6801 | 1152 | 1705 | 553 |
+|    Number of laboratories    | 35 | 0.6801 | 23 | 32 | 9 |
+|    Total budget allocation (Million KES)    | 9990.18 | 0.6801 | 6794.32 | 6832.72 |    38.398582    |
+|    Number of births    | 23233 | 0.6801 | 15800 | 15385 | -415 |
+| Total revenue (Million KES) | 9990.18 | 0.6801 | 6794.32 | 6794.65 | 0.33 |
+
+
+**TABLE 6 : EXCESS AND DEFICIENCY IN NYERI COUNTY, KENYA**
+
+*Source : The Researcher, 2019*
+
+###INTERPRETATIONS OF NYERI COUNTY FINDINGS
+
+The table shows that as compared to Machakos County,  health services in Nyeri County have 533 beds and 9 laboratories more. The analysis also reveals that the budget of Nyeri is Ksh. 38.398 million more than that of Machakos.  Despite the Nyeri county having 415 less deliveries than Machakos county, they produce a total revenue of Ksh. 330,000 more as compared to Machakos county, holding other factors constant.
+
+###GARISSA COUNTY
+
+The table below show the analysis of efficiency for Garissa County in Kenya for the variables of interest to this study. The findings are as shown in table 7 below.
+
+|    Inputs and outputs    |         | Kakamega  County |         | Garissa   County |         |
+|---------------------------------------------|--------------|------------------|-------------|------------------|--------------------------------------------------|
+|         |    Values    |    Lambdas    |    total    |         |    Excess use by Garissa County or deficiency    |
+|    Number of beds    | 1802 | 0.3031 | 546 | 747 | 201 |
+|    Number of laboratories    | 26 | 0.3031 | 7 | 15 | 7 |
+|    Total budget allocation (Million KES)    | 13169.96 | 0.3031 | 3991.815 | 7851.1 | 3859.285 |
+|    Number of births    | 38771 | 0.3031 | 11751 | 11750 | -1 |
+| Total revenue (Million KES) | 12115.98 | 0.3031 | 3672.354 | 364.84 | -3307.514 |
+
+**TABLE 7 : EXCESS AND DEFICIENCY IN GARISSA COUNTY, KENYA**
+
+*Source : The Researcher, 2019*
+
+###INTERPRETATIONS OF GARISSA COUNTY FINDINGS
+
+Table 7 shows the fact that, as compared to Kakamega County, Garissa County had 207 beds and 7 laboratories more in 2017. The analysis also reveals that the budget of Garissa County was Ksh. 3.859 billion shillings more than that of Kakamega County.  In conclusion, while difference was one in the number of children delivered, the total revenue of Kakamega County was also Ksh. 3.308 billion more than that of Garissa County in 2017, holding other factors constant.
+
+##LIMITATIONS OF THE STUDY
+
+The researcher gives caution on the conclusions of this document. This is because the study was conducted mainly to show that the research understood how to conduct efficiency studies and analysis. The major challenges in this study is that data was insufficient since the open source data sets available did not provide us with enough information to conclusively make confident policy recommendations.
+
+##Areas of Further Study
+
+The researcher opts to advocate for both human, technical and financial infrastructure to diversely do extensive research on other technical and scale efficiency inputs, outputs and determinants of county health systems' efficiency. 
